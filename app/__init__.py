@@ -19,6 +19,7 @@
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
 
 myapp_obj = Flask(__name__)
 myapp_obj.config.from_object("app.config.Config")
@@ -26,15 +27,24 @@ myapp_obj.config.from_object("app.config.Config")
 # Initialize database
 db = SQLAlchemy(myapp_obj)
 
-# Register blueprints (imported after app creation to avoid circular imports)
+# Initialize Flask-Login
+login_manager = LoginManager()
+login_manager.init_app(myapp_obj)
+login_manager.login_view = 'auth.login'
+
+# Register blueprints 
 from .auth import bp as auth_bp
 myapp_obj.register_blueprint(auth_bp)
 
 from .main import bp as main_bp
 myapp_obj.register_blueprint(main_bp)
 
-# Import models after everything else is set up to avoid circular imports
 from app import models
+
+# User loader callback for Flask-Login
+@login_manager.user_loader
+def load_user(user_id):
+    return models.User.query.get(int(user_id))
 
 
 

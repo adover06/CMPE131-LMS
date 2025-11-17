@@ -1,12 +1,13 @@
 from app import db
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(32), nullable=False)
-    password = db.Column(db.String(32), nullable=False)
-    email = db.Column(db.String(100), nullable=False)
+    username = db.Column(db.String(32), nullable=False, unique=True)
+    password = db.Column(db.String(128), nullable=False) 
+    email = db.Column(db.String(100), nullable=False, unique=True)
 
     posts = db.relationship('Post', backref='author', lazy='dynamic')
 

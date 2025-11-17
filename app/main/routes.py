@@ -78,6 +78,10 @@ def home():
 
 
 
+@bp.route("/feature")
+def feature():
+    return render_template('feature.html')
+
 @bp.route("/assign")
 def assign():
     return render_template('assignmentcreate.html')
