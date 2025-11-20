@@ -9,8 +9,6 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(128), nullable=False) 
     email = db.Column(db.String(100), nullable=False, unique=True)
 
-    posts = db.relationship('Post', backref='author', lazy='dynamic')
-
     def set_password(self, password):
         self.password = generate_password_hash(password)
 
@@ -20,12 +18,13 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return f'<user {self.id}: {self.username}>'
 
-class Post(db.Model):
+class Classes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    body = db.Column(db.String(256))
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    user = db.Column(db.ForeignKey('user.id'), nullable=False)
+    classes = db.Column(db.JSON, nullable=False)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-
-    def __repr__(self):
-        return f'<Post {self.id}: {self.body}>'
+class Course(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    course_name = db.Column(db.String(100), nullable=False)
+    course_code = db.Column(db.String(20), nullable=False, unique=True)
+    description = db.Column(db.Text, nullable=True)

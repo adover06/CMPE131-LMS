@@ -3,3 +3,4 @@ __pycache__/
 *.pyc
 .DS_Store
 .github/
+add_test_data.py

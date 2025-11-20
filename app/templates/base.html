@@ -33,6 +33,11 @@
                 </div>
                 <div class="text-sm font-medium">Messages</div>
             </a>
+            </nav>
+            
+            <div class="absolute bottom-4 left-4 right-4 text-center">
+                <p class="text-sm">{{ current_user.email }}</p>
+            </div>
         </nav>
     </aside>
         {% block content %} {% endblock %}
