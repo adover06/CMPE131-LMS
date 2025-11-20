@@ -21,5 +21,12 @@ def create_app(config_class="app.config.Config"):
     
     return app
 
+from app import models
+
+# User loader callback for Flask-Login
+@login_manager.user_loader
+def load_user(user_id):
+    return models.User.query.get(int(user_id))
+
 
 

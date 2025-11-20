@@ -1,6 +1,11 @@
 from flask import render_template
+from flask import render_template, redirect, flash
 from . import bp
 
+
+@bp.route("/")
+@bp.route("/index.html")
+@bp.route("/home")
 
 @bp.route("/")
 @bp.route("/index.html")
@@ -77,9 +82,15 @@ def home():
 
 
 
+
+@bp.route("/feature")
+def feature():
+    return render_template('feature.html')
+
 @bp.route("/assign")
 def assign():
     return render_template('assignmentcreate.html')
+
 
 @bp.route("/assignment")
 def assignment():
